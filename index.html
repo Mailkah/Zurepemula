@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sewa Bot WhatsApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Background dengan bintang-bintang */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.3);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: shine 8s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            20% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+            letter-spacing: 1px;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b6b, transparent);
+            margin: 15px 0;
+            border-radius: 50%;
+        }
+        
+        .content {
+            margin-bottom: 30px;
+        }
+        
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            margin: 10px 0;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .price-item:hover {
+            background: rgba(255, 107, 107, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
+        }
+        
+        .benefits {
+            margin-top: 25px;
+        }
+        
+        .benefit-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: rgba(0, 206, 201, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid #00cec9;
+        }
+        
+        .benefit-item i {
+            margin-right: 10px;
+            color: #00cec9;
+            text-shadow: 0 0 8px rgba(0, 206, 201, 0.5);
+        }
+        
+        .note {
+            background: rgba(255, 234, 167, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 3px solid #ffeaa7;
+        }
+        
+        .contact-item {
+            padding: 15px;
+            margin: 15px 0;
+            background: rgba(116, 185, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 3px solid #74b9ff;
+        }
+        
+        .contact-item:hover {
+            background: rgba(116, 185, 255, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(116, 185, 255, 0.2);
+        }
+        
+        .contact-item i {
+            margin-right: 15px;
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+            color: #74b9ff;
+            text-shadow: 0 0 8px rgba(116, 185, 255, 0.5);
+        }
+        
+        .contact-link {
+            color: #74b9ff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(116, 185, 255, 0.5);
+        }
+        
+        .contact-link:hover {
+            color: #0984e3;
+            text-decoration: underline;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff9e7d);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: btnShine 3s infinite;
+        }
+        
+        @keyframes btnShine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn i {
+            margin-left: 8px;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader-container {
+            width: 300px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b6b, #ff9e7d);
+            border-radius: 20px;
+            transition: width 0.1s linear;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: progressShine 1.5s infinite;
+        }
+        
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+            z-index: 2;
+        }
+        
+        .loading-content {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+        }
+        
+        .loading-subtext {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #ff6b6b;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background dengan bintang-bintang -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader-container">
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+        
+        <div class="loading-content">
+            <div class="loading-text">MEMUAT KONTEN...</div>
+            <div class="loading-subtext">Harap tunggu sebentar</div>
+        </div>
+    </div>
+
+    <!-- Container utama -->
+    <div class="container">
+        <!-- Halaman 1 -->
+        <div class="page active" id="page1">
+            <div class="header">
+                <div class="title">⿻ [ READY OPEN SEWA BOT BUAT GRUP ] ⿻</div>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="content">
+                <div class="price-item">
+                    <span>▧ 3 HARI</span>
+                    <span>: 3k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 7 HARI</span>
+                    <span>: 5k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 10 HARI</span>
+                    <span>: 7k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 15 HARI</span>
+                    <span>: 10k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 20 HARI</span>
+                    <span>: 13k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 30 HARI</span>
+                    <span>: 15K</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 40 HARI</span>
+                    <span>: 20K</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 50 HARI</span>
+                    <span>: 25K</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ 60 HARI</span>
+                    <span>: 30K</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ PERMANENT</span>
+                    <span>: 45K</span>
+                </div>
+                
+                <div class="benefits">
+                    <div class="divider"></div>
+                    <div class="title">KEUNTUNGAN SEWA BOT</div>
+                    <div class="benefit-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>BISA JAGA GRUP</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>BISA MEMPERMUDAH GRUP</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-crown"></i>
+                        <span>DAPAT PREMIUM</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-clock"></i>
+                        <span>BOT ON 24 JAM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn" onclick="nextPage(2)">
+                    SELANJUTNYA <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="pagination">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        
+        <!-- Halaman 2 -->
+        <div class="page" id="page2">
+            <div class="header">
+                <div class="title">⿻ [ READY KEBUTUHAN BOT WHATSAPP ] ⿻</div>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="content">
+                <div class="price-item">
+                    <span>▧ UNLIMITED PANEL</span>
+                    <span>: 3k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ RESELLER PANEL</span>
+                    <span>: 5k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ ADMIN PANEL</span>
+                    <span>: 7k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ PARTNER PANEL</span>
+                    <span>: 10k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ OWNER PANEL</span>
+                    <span>: 13k</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ SCRIPT RAIDEN MD</span>
+                    <span>: 30K</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ SCRIPT SELFBOTZ</span>
+                    <span>: 15K</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ SCRIPT YUUKA MD</span>
+                    <span>: 20K</span>
+                </div>
+                <div class="price-item">
+                    <span>▧ VPS R8 C4</span>
+                    <span>: 15K</span>
+                </div>
+                
+                <div class="note">
+                    <strong>NOTE :</strong>
+                    <p>BAGI YANG TIDAK BISA BIKIN BOT WHATSAPP AKAN DI AJARKAN SAMPAI BISA</p>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn" onclick="prevPage(1)">
+                    <i class="fas fa-arrow-left"></i> SEBELUMNYA
+                </button>
+                <button class="btn" onclick="nextPage(3)" style="margin-left: 15px;">
+                    SELANJUTNYA <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="pagination">
+                <div class="dot"></div>
+                <div class="dot active"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        
+        <!-- Halaman 3 -->
+        <div class="page" id="page3">
+            <div class="header">
+                <div class="title">KONTAK OWNER</div>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="content">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>083176597242</span>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fab fa-telegram"></i>
+                    <a href="https://t.me/Sanzzofficiall" class="contact-link" target="_blank">https://t.me/Sanzzofficiall</a>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <a href="https://whatsapp.com/channel/0029Vb6TWAfFMqrejcazn945" class="contact-link" target="_blank">Saluran Owner</a>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-star"></i>
+                    <a href="https://whatsapp.com/channel/0029Vb5xJ6w42DceAsTTGW31" class="contact-link" target="_blank">Testimoni Owner</a>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fab fa-tiktok"></i>
+                    <a href="https://tiktok.com/@zure_pemulaa" class="contact-link" target="_blank">tiktok.com/@zure_pemulaa</a>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn" onclick="prevPage(2)">
+                    <i class="fas fa-arrow-left"></i> SEBELUMNYA
+                </button>
+            </div>
+            
+            <div class="pagination">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot active"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk membuat bintang-bintang
+        function createStars() {
+            const stars = document.getElementById('stars');
+            const starsCount = 150;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Ukuran acak
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Posisi acak
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                
+                // Animasi acak
+                const duration = 3 + Math.random() * 10;
+                const delay = Math.random() * 5;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+                
+                stars.appendChild(star);
+            }
+        }
+        
+        // Fungsi untuk progress bar
+        function simulateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const loadingScreen = document.getElementById('loadingScreen');
+            
+            let width = 0;
+            const interval = 20; // Update setiap 20ms (50fps)
+            const increment = 100 / (2000 / interval); // Hitung increment untuk 2 detik
+            
+            const progressInterval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(progressInterval);
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                } else {
+                    width += increment;
+                    progressBar.style.width = `${width}%`;
+                    progressText.textContent = `${Math.round(width)}%`;
+                }
+            }, interval);
+        }
+        
+        // Sembunyikan loading screen setelah halaman dimuat
+        window.addEventListener('load', function() {
+            createStars();
+            simulateProgress();
+        });
+        
+        // Fungsi untuk navigasi halaman
+        function nextPage(pageNumber) {
+            // Tampilkan loading screen
+            const loadingScreen = document.getElementById('loadingScreen');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            loadingScreen.style.display = 'flex';
+            loadingScreen.style.opacity = '1';
+            progressBar.style.width = '0%';
+            progressText.textContent = '0%';
+            
+            // Simulasi progress
+            let width = 0;
+            const interval = 20;
+            const increment = 100 / (2000 / interval);
+            
+            const progressInterval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(progressInterval);
+                    
+                    // Sembunyikan semua halaman
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Tampilkan halaman yang dituju
+                    document.getElementById('page' + pageNumber).classList.add('active');
+                    
+                    // Update pagination dots
+                    document.querySelectorAll('.dot').forEach((dot, index) => {
+                        dot.classList.remove('active');
+                        if (index === pageNumber - 1) {
+                            dot.classList.add('active');
+                        }
+                    });
+                    
+                    // Sembunyikan loading screen
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                    
+                    // Scroll ke atas
+                    window.scrollTo(0, 0);
+                } else {
+                    width += increment;
+                    progressBar.style.width = `${width}%`;
+                    progressText.textContent = `${Math.round(width)}%`;
+                }
+            }, interval);
+        }
+        
+        function prevPage(pageNumber) {
+            nextPage(pageNumber);
+        }
+    </script>
+</body>
+</html>
